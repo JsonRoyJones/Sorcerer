@@ -73,7 +73,8 @@
         const headers = {
           Authorization: 'Token b958232120e209859ee36c3273994feac7a03383'
         };
-        const url = 'https://api.github.com/search/issues?q=repo:jsonroyjones/sourcerer type:issue';
+        const url =
+          'https://api.github.com/search/issues?q=repo:jsonroyjones/sourcerer type:issue state:open';
         const response = await fetch(url);
         const result = await response.json();
 
@@ -141,12 +142,11 @@
         // still need to add modular repo selection
         const url = 'https://api.github.com/repos/jsonroyjones/sourcerer/issues';
         const headers = {
-          Authorization: 'Token b958232120e209859ee36c3273994feac7a03383'
+          Authorization: 'Token f6a59aff97c281683799101253f7fe0fbb6d4ecf'
         };
         const payload = {
-          title: 'This is a test for defaulting to JsonRoyJones as assignee for all issues',
-          body: 'Is JsonRoyJones automatically assigned?',
-          assignee: 'JsonRoyJones'
+          title: 'Testing the create issue function one more time',
+          body: 'Looks like it works'
         };
         const response = await fetch(url, {
           method: 'POST',
