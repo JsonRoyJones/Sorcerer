@@ -1,5 +1,5 @@
 import { token } from './token.js';
-
+console.log(token.auth);
 // import React from 'react';
 // import { render } from 'react-dom';
 // import { BrowserRouter } from 'react-router-dom';
@@ -66,7 +66,7 @@ async function getIssues() {
 async function getIssuesPrivate() {
   clear();
   const headers = {
-    Authorization: token
+    Authorization: token.auth
   };
   const url =
     'https://api.github.com/search/issues?q=repo:jsonroyjones/sourcerer type:issue state:open';
@@ -137,11 +137,11 @@ async function createIssue() {
   // still need to add modular repo selection
   const url = 'https://api.github.com/repos/jsonroyjones/sourcerer/issues';
   const headers = {
-    Authorization: token
+    Authorization: token.auth
   };
   const payload = {
-    title: 'Testing the create issue function one more time',
-    body: 'Looks like it works'
+    title: 'Testing the create issue',
+    body: 'works'
   };
   const response = await fetch(url, {
     method: 'POST',
