@@ -43,6 +43,23 @@ async function getRepos() {
     divResult.appendChild(img);
     divResult.appendChild(anchor);
     divResult.appendChild(document.createElement('br'));
+    // appending getIssues and getCommits buttons to each i returned
+    divResult.appendChild(document.createElement('button'));
+    divResult.lastChild.setAttribute('id', `${i.name}_Issues`);
+    let curBtn;
+    curBtn = document.getElementById(`${i.name}_Issues`);
+    curBtn.textContent = `Get Issues`;
+    // getCommits button for each i
+    divResult.appendChild(document.createElement('button'));
+    divResult.lastChild.setAttribute('id', `${i.name}_Commits`);
+    curBtn = document.getElementById(`${i.name}_Commits`);
+    curBtn.textContent = `Get Commits`;
+
+    // curBtn.
+    // ('type', 'submit'),
+    // ('formmethod', 'get' + i.html_url),
+    // ('formtarget', '_blank')
+    divResult.appendChild(document.createElement('br'));
   });
 }
 
@@ -65,9 +82,6 @@ async function getIssues() {
 
 async function getIssuesPrivate() {
   clear();
-  const headers = {
-    Authorization: token.auth
-  };
   const url =
     'https://api.github.com/search/issues?q=repo:jsonroyjones/sourcerer type:issue state:open';
   const response = await fetch(url);
