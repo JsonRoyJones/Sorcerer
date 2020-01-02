@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/JsonRoyJones/Sourcerer#readme",
   "dependencies": {
-    "prettier": "^1.19.1"
+    "dotenv": "^8.2.0",
+    "prettier": "^1.19.1",
+    "requirejs": "^2.3.6"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
