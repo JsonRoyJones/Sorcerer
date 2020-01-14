@@ -6,7 +6,7 @@ const searchBtn = document.getElementById('searchRepos');
 // const btnIssuesPrivate = document.getElementById('btnIssuesPrivate');
 // const btnCreateIssue = document.getElementById('btnCreateIssue');
 // const btnCommits = document.getElementById('btnCommits');
-// const divResult = document.getElementById('divResult');
+const divResult = document.getElementById('divResult');
 searchBtn.addEventListener('click', searchRepos);
 // btnRepos.addEventListener('click', getRepos);
 // btnIssuesPrivate.addEventListener('click', getIssuesPrivate);
@@ -83,6 +83,7 @@ async function saveIssues() {
 }
 
 async function getIssues(repo) {
+  console.log(repo);
   // create reset button to collapse repos
   const url = 'https://api.github.com/search/issues?q=repo:' + repo + ' type:issue state:open';
   const response = await fetch(url);
@@ -109,14 +110,14 @@ async function getIssues(repo) {
     }
     // create form element for issues
     const issuesForm = document.createElement('form');
-    issuesForm.action = '/Sourcerer/client/issues.html';
-    issuesForm.target = 'result';
-    issuesForm.method = 'post';
+    // issuesForm.action = '/Sourcerer/client/issues.html';
+    // issuesForm.target = 'result';
+    // issuesForm.method = 'post';
 
-    // create submit button INPUT
-    const saveIssues = document.createElement('input');
-    saveIssues.type = 'submit';
-    saveIssues.value = `Save ${name} Issues`;
+    // // create submit button INPUT
+    // const saveIssues = document.createElement('input');
+    // saveIssues.type = 'submit';
+    // saveIssues.value = `Save ${name} Issues`;
     // saveIssues.onsubmit = ""
 
     // append form element to issues div
@@ -126,10 +127,10 @@ async function getIssues(repo) {
       console.log('in result.items.forEach', el.user.avatar_url);
       // checkbox and attributes
       console.log(el);
-      const box = document.createElement('input');
-      box.type = 'checkbox';
-      box.name = el.title;
-      box.value = el.html_url;
+      // const box = document.createElement('input');
+      // box.type = 'checkbox';
+      // box.name = el.title;
+      // box.value = el.html_url;
       // img icon and attributes
       const img = document.createElement('img');
       img.src = el.user.avatar_url;
@@ -140,13 +141,25 @@ async function getIssues(repo) {
       anchor.href = el.html_url;
       anchor.textContent = el.title;
       // appending child nodes to issues element
-      issuesForm.appendChild(box);
+      // issuesForm.appendChild(box);
       issuesForm.appendChild(img);
       issuesForm.appendChild(anchor);
       issuesForm.appendChild(document.createElement('br'));
     });
+    console.log(result);
+    // navigate to issues page on github for this specific project
+    const gitHubNav = document.createElement('button');
+    gitHubNav.id = 'gitHubNav';
+    gitHubNav.textContent = 'Take me to GitHub for more issues!';
+    // select last child and pull repo url to use in this githubNav button
+    const gitHubNavURL = 'https://github.com/' + repo + '/issues';
+    gitHubNav.addEventListener('click', () => (location = gitHubNavURL));
+
+    issues.appendChild(document.createElement('br'));
+    issues.appendChild(document.createElement('br'));
+    issues.appendChild(gitHubNav);
     // append submit button to issuesForm
-    issuesForm.appendChild(saveIssues);
+    // issuesForm.appendChild(saveIssues);
   }
 }
 
