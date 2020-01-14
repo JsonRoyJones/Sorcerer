@@ -5,16 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Sourcerer</title>
+    <link rel="stylesheet" href="/client/styles.css" />
   </head>
   <body>
-    <h1>Sourcerer</h1>
-    <button id="btnRepos">Repos</button>
-    <button id="btnIssues">Issues</button>
-    <button id="btnIssuesPrivate">Sourcerer Issues</button>
-    <button id="btnCreateIssue">Create Issue</button>
-    <button id="btnCommits">Commits</button>
-    <div id="divResult"></div>
+    <div id="main">
+      <h1>Sourcerer</h1>
+      <br />
+      <form id="searchParams">
+        <span style>
+          Minimum Stars<select id="minStars" name="minStars">
+            <option value="50">50</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+            <option value="1000">1k</option>
+            <option value="2500">2.5k</option>
+            <option value="5000">5k</option>
+            <option value="10000">10k</option>
+            <option value="50000">50k</option>
+            <option value="100000">100k</option>
+          </select>
+          Maximum Stars<select id="maxStars" name="maxStars">
+            <option value="50000">50k</option>
+            <option value="100000">100k</option>
+            <option value="250000">250k</option>
+            <option value="500000">500k</option>
+            <option value="1000000">1MM</option>
+          </select>
+        </span>
+        <br />
+        <!-- <span>
+          Minimum Issues<select id="minIssues" name="minIssues">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          Maximum Issues<select id="maxIssues" name="maxIssues">
+            <option value="100">100</option>
+            <option value="250">250</option>
+            <option value="300">300</option>
+            <option value="500">500</option>
+            <option value="750">750</option>
+            <option value="1000">1k</option>
+            <option value="2500">2.5k</option>
+            <option value="5000">5k</option>
+          </select> -->
+        <!-- </span> -->
+        <br />
+        <input type="button" id="searchRepos" value="Search"></button>
+      </form>
+      <!-- <div id="btnGroup">
+        <button id="btnRepos">Repos</button>
+        <button id="btnIssuesPrivate">Sourcerer Issues</button>
+        <button id="btnCreateIssue">Create Issue</button>
+        <button id="btnCommits">Commits</button>
+      </div> -->
+      <div id="divResult"></div>
+    </div>
+    <!-- <script defer type="module" src="../build/bundle.js"></script> -->
     <script type="module" src="index.js"></script>
+    <script type="stylesheet" src="stylesheets/styles.css"></script>
+
     <!-- <div id="app"></div> -->
   </body>
 </html>

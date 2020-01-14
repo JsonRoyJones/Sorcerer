@@ -1,34 +1,30 @@
 import { token } from './token.js';
-// console.log(token.auth);
-// import React from 'react';
-// import { render } from 'react-dom';
-// import { BrowserRouter } from 'react-router-dom';
-// import App from './App';
 
-// render(
-//   <BrowserRouter>
-//     <App />
-//   </BrowserRouter>,
-//   document.getElementById('app')
-// );
+const searchBtn = document.getElementById('searchRepos');
+// const btnRepos = document.getElementById('btnRepos');
+// const btnIssues = document.getElementById('btnIssues');
+// const btnIssuesPrivate = document.getElementById('btnIssuesPrivate');
+// const btnCreateIssue = document.getElementById('btnCreateIssue');
+// const btnCommits = document.getElementById('btnCommits');
+// const divResult = document.getElementById('divResult');
+searchBtn.addEventListener('click', searchRepos);
+// btnRepos.addEventListener('click', getRepos);
+// btnIssuesPrivate.addEventListener('click', getIssuesPrivate);
+// btnCreateIssue.addEventListener('click', createIssue);
+// btnCommits.addEventListener('click', e => getCommits());
 
-const btnRepos = document.getElementById('btnRepos');
-const btnIssues = document.getElementById('btnIssues');
-const btnIssuesPrivate = document.getElementById('btnIssuesPrivate');
-const btnCreateIssue = document.getElementById('btnCreateIssue');
-const btnCommits = document.getElementById('btnCommits');
-const divResult = document.getElementById('divResult');
-btnRepos.addEventListener('click', getRepos);
-btnIssues.addEventListener('click', getIssues);
-btnIssuesPrivate.addEventListener('click', getIssuesPrivate);
-btnCreateIssue.addEventListener('click', createIssue);
-btnCommits.addEventListener('click', e => getCommits());
-
-async function getRepos() {
+async function searchRepos() {
   clear();
   // still need to modularize these search parameters for query string
-  const url = 'https://api.github.com/search/repositories?q=stars:50000..300000';
-  const response = await fetch(url);
+  // add minStars variable for use in url string
+  // add maxStars variable for use in url string
+  // concat apiBaseRepo, minStars, maxStars
+  const minStars = document.getElementById('minStars').value;
+  const maxStars = document.getElementById('maxStars').value;
+  const starsQ = 'q=stars:';
+  const apiBaseRepo = 'https://api.github.com/search/repositories?';
+  const repoStars = apiBaseRepo + starsQ + minStars + '..' + maxStars;
+  const response = await fetch(repoStars);
   const result = await response.json();
   result.items.forEach(i => {
     console.log(i);
@@ -36,15 +32,19 @@ async function getRepos() {
     div.id = i.name;
     const img = document.createElement('img');
     img.src = i.owner.avatar_url;
-    img.style.width = '32px';
-    img.style.height = '32px';
+    img.style.width = '100px';
+    img.style.height = '100px';
+    const openIssues = document.createElement('p');
+    openIssues.textContent = `Currently ${i.open_issues_count} open issues`;
     const anchor = document.createElement('a');
     anchor.href = i.html_url;
     anchor.textContent = i.name;
     divResult.appendChild(div);
-    div.appendChild(img);
     div.appendChild(anchor);
     div.appendChild(document.createElement('br'));
+    div.appendChild(img);
+    div.appendChild(openIssues);
+    // div.appendChild(document.createElement('br'));
     // appending getIssues buttons to each i returned
     div.appendChild(document.createElement('button'));
     div.lastChild.setAttribute('id', `${i.name}_Issues`);
@@ -60,18 +60,30 @@ async function getRepos() {
       btnParent.appendChild(brTag);
       getIssues(i.full_name);
     });
+
+    // div.appendChild(document.createElement('hr'));
     // getCommits button for each i
     // divResult.appendChild(document.createElement('button'));
     // divResult.lastChild.setAttribute('id', `${i.name}_Commits`);
     // curBtn = document.getElementById(`${i.name}_Commits`);
     // curBtn.textContent = `Get Commits`;
-
+    divResult.appendChild(document.createElement('hr'));
     divResult.appendChild(document.createElement('br'));
   });
 }
 
+async function saveIssues() {
+  // create reset button to collapse repos
+  const url = 'https://api.github.com/search/issues?q=repo:' + repo + ' type:issue state:open';
+  const response = await fetch(url);
+  const result = await response.json();
+  // select div for issues
+  const name = repo.split('/')[1];
+  const issues = document.getElementById(name);
+}
+
 async function getIssues(repo) {
-  // still need to add modular repo selection
+  // create reset button to collapse repos
   const url = 'https://api.github.com/search/issues?q=repo:' + repo + ' type:issue state:open';
   const response = await fetch(url);
   const result = await response.json();
@@ -97,7 +109,7 @@ async function getIssues(repo) {
     }
     // create form element for issues
     const issuesForm = document.createElement('form');
-    issuesForm.action = console.log('URL GOES HERE');
+    issuesForm.action = '/Sourcerer/client/issues.html';
     issuesForm.target = 'result';
     issuesForm.method = 'post';
 
@@ -105,6 +117,7 @@ async function getIssues(repo) {
     const saveIssues = document.createElement('input');
     saveIssues.type = 'submit';
     saveIssues.value = `Save ${name} Issues`;
+    // saveIssues.onsubmit = ""
 
     // append form element to issues div
     issues.appendChild(issuesForm);
@@ -206,7 +219,7 @@ async function getCommits(
     img.style.height = '32px';
     const anchor = document.createElement('a');
     anchor.href = i.html_url;
-    anchor.textContent = i.commit.message.substr(0, 120) + '...';
+    anchor.textContent = i.commit.message.substr(0, 60) + '...';
     divResult.appendChild(img);
     divResult.appendChild(anchor);
     divResult.appendChild(document.createElement('br'));

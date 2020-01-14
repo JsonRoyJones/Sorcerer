@@ -1,0 +1,50 @@
+a {
+  font-size: 1.3em;
+}
+
+body {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+#main {
+  width: 80%;
+  align-items: center;
+}
+
+#divResult {
+  width: 100%;
+  align-self: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 10%;
+}
+
+h1 {
+  text-align: center;
+  align-self: center;
+}
+
+hr {
+  margin: 10%;
+}
+
+div form {
+  text-align: left;
+}
+
+#btnGroup {
+  text-align: center;
+}
+
+p {
+  font-size: 1.3em;
+}
+
+#searchParams {
+  text-align: center;
+  align-content: center;
+  align-self: center;
+}

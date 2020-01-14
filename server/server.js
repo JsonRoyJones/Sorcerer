@@ -2,10 +2,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const PORT = 3007;
-const assets = require('../client/main');
-const taskControllers = require('./controllers/taskControllers');
-const http = require('http');
+const PORT = 3000;
+const assets = require('../client/index.js');
+const IssueControllers = require('./controllers/IssueControllers.js');
 /**
  * handle parsing request body
  */
@@ -15,31 +14,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /**
  * handle requests for static files
  */
-app.use('/', express.static(path.resolve(__dirname, './client/assets')));
+app.use('/', express.static(path.resolve(__dirname, '../client/index.html')));
 // serve index.html on page load
-app.get('/', (req, res) =>
-  res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'))
+app.get('/index.js', (req, res) =>
+  res.status(200).sendFile(path.resolve(__dirname, '../client/index.js'))
 );
 // handle get request for styles.css
-app.get('/assets/styles.css', (req, res) => {
-  res.status(200).sendFile(path.resolve(__dirname, '../client/assets/styles.css'));
+app.get('/styles.css', (req, res) => {
+  res.status(200).sendFile(path.resolve(__dirname, '../client/styles.css'));
 });
-// handle get request for main.js
-app.get('/js/bundle.js', (req, res) => {
-  res.status(200).sendFile(path.resolve(__dirname, '../client/js/bundle.js'));
-});
+
 // insert route handlers here
 // get request for tasks
-app.get('/tasks', taskControllers.getTasks, (req, res) => {
-  res.status(200).json(res.locals.tasks);
+app.get('/issues', taskControllers.getIssues, (req, res) => {
+  res.status(200).json(res.locals.issues);
 });
 // post new task
-app.post('/addTask', taskControllers.addTask, (req, res) => {
-  res.status(200).json(res.locals.newTask);
+app.post('/addIssues', taskControllers.addIssues, (req, res) => {
+  res.status(200).json(res.locals.newIssues);
 });
 // delete new task
-app.delete('/deleteTask/:id', taskControllers.deleteTask, (req, res) => {
-  res.status(200).json(res.locals.task);
+app.delete('/deleteIssue/:id', taskControllers.deleteIssue, (req, res) => {
+  res.status(200).json(res.locals.issue);
 });
 
 // catch-all route handler for any requests to an unknown route
@@ -66,3 +62,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
+
+module.exports = app;
