@@ -39,6 +39,14 @@ const UserSchema = new Schema({
 
 const User = mongoose.model('user', UserSchema);
 
+const IssueSchema = new Schema({
+  title: { type: String, required: true },
+  url: { type: String, required: true }
+});
+
+const Issue = mongoose.model('issue', IssueSchema);
+
 module.exports = {
-  User
+  User,
+  Issue
 };

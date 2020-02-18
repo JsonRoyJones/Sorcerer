@@ -1,4 +1,6 @@
-const Issue = require('../models/IssuesModel');
+const IssuesModel = require('../models/IssuesModel');
+
+const { Issue } = IssuesModel;
 
 const IssueControllers = {};
 
@@ -6,23 +8,27 @@ IssueControllers.getIssues = (req, res, next) => {
   Issue.find({}, (err, issues) => {
     if (err) {
       return next(err);
-    } else {
-      res.locals.issues = issues;
-      return next();
     }
+    res.locals.issues = issues;
+    return next();
   });
 };
 
 IssueControllers.addIssues = (req, res, next) => {
   console.log('req.body', req.body);
-  const { issues } = req.body;
-  Issue.create({ issues }, (err, newIssue) => {
+  const issue = req.body;
+  const issuePieces = Object.entries(issue);
+  console.log(issuePieces, 'issuePieces');
+  const issueCreate = { title: issuePieces[0][0], url: issuePieces[0][1] };
+  console.log(issueCreate);
+  Issue.create(issueCreate, (err, newIssues) => {
     if (err) {
+      console.log(err);
       return next(err);
-    } else {
-      res.locals.newIssues = newIssues;
-      return next();
     }
+    res.locals.newIssues = newIssues;
+    console.log(res.locals.newIssues);
+    return next();
   });
 };
 
@@ -30,10 +36,9 @@ IssueControllers.deleteIssue = (req, res, next) => {
   Issue.findByIdAndDelete(req.params.id, (err, issue) => {
     if (err) {
       return next(err);
-    } else {
-      res.locals.issue = issue;
-      return next();
     }
+    res.locals.issue = issue;
+    return next();
   });
 };
 

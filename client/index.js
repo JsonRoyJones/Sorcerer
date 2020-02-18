@@ -1,4 +1,8 @@
-import { token } from './token.js';
+// const jsdom = require('jsdom');
+
+// const document = jsdom;
+
+// const token = require('./token.js');
 
 const searchBtn = document.getElementById('searchRepos');
 // const btnRepos = document.getElementById('btnRepos');
@@ -26,8 +30,9 @@ async function searchRepos() {
   const repoStars = apiBaseRepo + starsQ + minStars + '..' + maxStars;
   const response = await fetch(repoStars);
   const result = await response.json();
+  console.log(result);
   result.items.forEach(i => {
-    console.log(i);
+    // console.log(i);
     const div = document.createElement('div');
     div.id = i.name;
     const img = document.createElement('img');
@@ -36,6 +41,13 @@ async function searchRepos() {
     img.style.height = '100px';
     const openIssues = document.createElement('p');
     openIssues.textContent = `Currently ${i.open_issues_count} open issues`;
+    const langs = document.createElement('p');
+    // () => {
+    //   const res = fetch(i.languages_url);
+    //   // const res2 = res.json();
+    //   console.log
+    //   langs.textContent = `Languages used: ${res2}`;
+    // };
     const anchor = document.createElement('a');
     anchor.href = i.html_url;
     anchor.textContent = i.name;
@@ -44,6 +56,8 @@ async function searchRepos() {
     div.appendChild(document.createElement('br'));
     div.appendChild(img);
     div.appendChild(openIssues);
+    div.appendChild(document.createElement('br'));
+    div.appendChild(langs);
     // div.appendChild(document.createElement('br'));
     // appending getIssues buttons to each i returned
     div.appendChild(document.createElement('button'));
@@ -110,15 +124,15 @@ async function getIssues(repo) {
     }
     // create form element for issues
     const issuesForm = document.createElement('form');
-    // issuesForm.action = '/Sourcerer/client/issues.html';
-    // issuesForm.target = 'result';
-    // issuesForm.method = 'post';
+    issuesForm.action = '/addIssues';
+    issuesForm.target = 'result';
+    issuesForm.method = 'post';
 
     // // create submit button INPUT
-    // const saveIssues = document.createElement('input');
-    // saveIssues.type = 'submit';
-    // saveIssues.value = `Save ${name} Issues`;
-    // saveIssues.onsubmit = ""
+    const saveIssues = document.createElement('input');
+    saveIssues.type = 'submit';
+    saveIssues.value = `Save ${name} Issues`;
+    saveIssues.onsubmit = '/addIssues';
 
     // append form element to issues div
     issues.appendChild(issuesForm);
@@ -127,10 +141,10 @@ async function getIssues(repo) {
       console.log('in result.items.forEach', el.user.avatar_url);
       // checkbox and attributes
       console.log(el);
-      // const box = document.createElement('input');
-      // box.type = 'checkbox';
-      // box.name = el.title;
-      // box.value = el.html_url;
+      const box = document.createElement('input');
+      box.type = 'checkbox';
+      box.name = el.title;
+      box.value = el.html_url;
       // img icon and attributes
       const img = document.createElement('img');
       img.src = el.user.avatar_url;
@@ -141,7 +155,7 @@ async function getIssues(repo) {
       anchor.href = el.html_url;
       anchor.textContent = el.title;
       // appending child nodes to issues element
-      // issuesForm.appendChild(box);
+      issuesForm.appendChild(box);
       issuesForm.appendChild(img);
       issuesForm.appendChild(anchor);
       issuesForm.appendChild(document.createElement('br'));
@@ -159,7 +173,7 @@ async function getIssues(repo) {
     issues.appendChild(document.createElement('br'));
     issues.appendChild(gitHubNav);
     // append submit button to issuesForm
-    // issuesForm.appendChild(saveIssues);
+    issuesForm.appendChild(saveIssues);
   }
 }
 
